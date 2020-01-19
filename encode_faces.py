@@ -27,7 +27,7 @@ imagePaths = list(paths.list_images(args["dataset"]))
 knownEncodings = []
 knownNames = []
 
-# loop over the image paths
+#loop over the image paths
 for (i, imagePath) in enumerate(imagePaths):
 	# extract the person name from the image path
 	print("[INFO] processing image {}/{}".format(i + 1,
@@ -53,10 +53,18 @@ for (i, imagePath) in enumerate(imagePaths):
 		# encodings
 		knownEncodings.append(encoding)
 		knownNames.append(name)
+		# print(name,encoding)
 
-# dump the facial encodings + names to disk
+#dump the facial encodings + names to disk
+try:
+	current_encoded_pickle = open(args["encodings"] , "rb")
+	data = pickle.loads(current_encoded_pickle.read())
+except FileNotFoundError:
+	data = {"encodings": [], "names": []}
 print("[INFO] serializing encodings...")
-data = {"encodings": knownEncodings, "names": knownNames}
+
+data["encodings"]+=knownEncodings
+data["names"]+=knownNames
 f = open(args["encodings"], "wb")
 f.write(pickle.dumps(data))
 f.close()
