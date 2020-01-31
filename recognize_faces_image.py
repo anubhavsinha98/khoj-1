@@ -10,6 +10,16 @@ import cv2
 # construct the argument parser and parse the arguments
 
 def recognize_person(args):
+	try:
+		args["detection_method"]
+	except KeyError:
+		args["detection_method"]="cnn"
+
+	try:
+		args["encodings"]
+	except KeyError:
+		args["encodings"]="encodings.pickle"
+		
 	# load the input image and convert it from BGR to RGB
 	image = cv2.imread(args["image"])
 	rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -79,7 +89,7 @@ def recognize_person(args):
 
 if __name__=='__main__':
 	ap = argparse.ArgumentParser()
-	ap.add_argument("-e", "--encodings", required=True,help="path to serialized db of facial encodings")
+	ap.add_argument("-e", "--encodings", type=str, default="encodings.pickle" ,help="path to serialized db of facial encodings")
 	ap.add_argument("-i", "--image", required=True,help="path to input image")
 	ap.add_argument("-d", "--detection-method", type=str, default="cnn",help="face detection model to use: either `hog` or `cnn`")
 	args = vars(ap.parse_args())
