@@ -35,7 +35,6 @@ def recognize_person(args):
 	if person_count!=1:
 		if person_count>1:
 			print("More than one faces detected!")
-			return "unknown"
 		elif person_count==0:
 			print("No face detected!")
 		return "unknown"
