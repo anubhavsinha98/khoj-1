@@ -6,7 +6,9 @@ import face_recognition
 import argparse
 import pickle
 import cv2
-
+from guardian.models import *
+from numpy import array
+from random import randint
 # construct the argument parser and parse the arguments
 
 def recognize_person(args):
@@ -15,10 +17,10 @@ def recognize_person(args):
 	except KeyError:
 		args["detection_method"]="cnn"
 
-	try:
-		args["encodings"]
-	except KeyError:
-		args["encodings"]="encodings.pickle"
+	# try:
+	# 	args["encodings"]
+	# except KeyError:
+	# 	args["encodings"]="encodings.pickle"
 		
 	# load the input image and convert it from BGR to RGB
 	image = cv2.imread(args["image"])
@@ -30,7 +32,7 @@ def recognize_person(args):
 	print("[INFO] Detecting number of faces...")
 	boxes = face_recognition.face_locations(rgb,model=args["detection_method"])
 	encodings = face_recognition.face_encodings(rgb, boxes)
-	# print(encodings,type(encodings))
+	# print(encodings[0])
 	person_count=len(encodings)
 	if person_count!=1:
 		if person_count>1:
@@ -39,19 +41,32 @@ def recognize_person(args):
 			print("No face detected!")
 		return "unknown"
 	print("[INFO] Matching face with the database...")
-	data = pickle.loads(open(args["encodings"], "rb").read())
+	
+
+	# data = pickle.loads(open(args["encodings"], "rb").read())
 	# initialize the list of names for each face detected
 
+	all_persons = MissingPersonImages.objects.all()
+	data= {"encodings":[],"names":[]}
+	for person in all_persons:
+
+		data["encodings"].append(eval(person.pickel)[0])
+		# data["encodings"].append(person.pickel)
+		data["names"].append(person.addhar_card_number.addhar_card_number)
+	# for aadhar_num in all_persons:
+	# 	all_persons[aadhar_num]=eval()
+	# print("all-p",all_persons)
 	# loop over the facial embeddings
 	# for encoding in encodings:
 		# attempt to match each face in the input image to our known
 		# encodings
+	# print(data)
 	match = face_recognition.compare_faces(data["encodings"],encodings[0])
 	# print(matches,type(matches))
 	name = "Unknown"
-
+	# print(match)
 	# check to see if we have found a match
-	if match[0]:
+	if True in match:
 		# find the indexes of all matched faces then initialize a
 		# dictionary to count the total number of times each face
 		# was matched
@@ -71,21 +86,26 @@ def recognize_person(args):
 	
 	# update the list of names
 	print(name)
-	return name
+	
+	for ((top, right, bottom, left), name) in zip(boxes, [name]):
+		# draw the predicted face name on the image
+		cv2.rectangle(image, (left, top), (right, bottom), (0, 255, 0), 2)
+		y = top - 15 if top - 15 > 15 else top + 15
+		cv2.putText(image, name, (left, y), cv2.FONT_HERSHEY_SIMPLEX,
+			0.75, (0, 255, 0), 2)
 
-# loop over the recognized faces
-# for ((top, right, bottom, left), name) in zip(boxes, names):
-# 	# draw the predicted face name on the image
-# 	cv2.rectangle(image, (left, top), (right, bottom), (0, 255, 0), 2)
-# 	y = top - 15 if top - 15 > 15 else top + 15
-# 	cv2.putText(image, name, (left, y), cv2.FONT_HERSHEY_SIMPLEX,
-# 		0.75, (0, 255, 0), 2)
+	# show the output image
+	# cv2.imwrite("media/tmp")
+	img_name="media/tmp/"+str(randint(0,1000000000))+"regognized_"+args["image"].split("/")[-1]
+	cv2.imwrite(img_name,image)
+	# cv2.imshow("Image", image)
 
-# show the output image
+	# cv2.waitKey(0)
 
-# cv2.imshow("Image", image)
-# cv2.waitKey(0)
+	return (name,img_name)
 
+	
+	# loop over the recognized faces
 if __name__=='__main__':
 	ap = argparse.ArgumentParser()
 	ap.add_argument("-e", "--encodings", type=str, default="encodings.pickle" ,help="path to serialized db of facial encodings")

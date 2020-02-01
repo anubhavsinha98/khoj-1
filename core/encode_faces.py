@@ -58,7 +58,7 @@ def update_pickle(args):
 			try:
 				result[key].append(encodings)
 			except KeyError:
-				result[key]=[False]
+				result[key]=[encodings]
 			# print(name,encoding)
 	# print(result)
 	return result
