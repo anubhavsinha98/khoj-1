@@ -33,21 +33,13 @@ def upload_found_person_image_form(request):
 				file_num+=1
 			except FileExistsError:
 				file_num+=1
-
-	args= {'dataset' : "media/images/founder/" + str(addhar_card_number)}
-	encoded_faces = encode_faces.update_pickle(args)
-
-	print(encoded_faces)
-	for pickles in encoded_faces:
-		file_num=0
-		for pickle in encoded_faces[pickles]:
-			if pickle:
-				lost_person = MissingPersonImages.objects.filter(pickle=pickle)
-				if lost_person:
-					print("person founded")
-					break
-			file_num+=1
-
-
-
-	return render(request, 'base.html')
+	# print(files)
+	args= {'image' : "media/images/founder/" + str(addhar_card_number) + "/" +file_name}
+	addhar_num,img_path=recognize_faces_image.recognize_person(args)
+	if addhar_num!="Unknown":
+		person_name=MissingPerson.objects.get(addhar_card_number=addhar_num).name
+		status="Found"
+	else:
+		person_name="Unknown"
+		status="Not Found!"
+	return render(request, 'base.html',{'name': person_name,'status' : status,'img_path' : img_path})
