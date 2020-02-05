@@ -96,10 +96,11 @@ def recognize_person(args):
 
 	# show the output image
 	# cv2.imwrite("media/tmp")
-	img_name="media/tmp/"+str(randint(0,1000000000))+"regognized_"+args["image"].split("/")[-1]
-	cv2.imwrite(img_name,image)
+	img_name=str(randint(0,1000000000))+"regognized_"+args["image"].split("/")[-1]
+	img_path="static/tmp/"+img_name
+	cv2.imwrite(img_path,image)
+	
 	# cv2.imshow("Image", image)
-
 	# cv2.waitKey(0)
 
 	return (name,img_name)
