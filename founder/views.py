@@ -36,6 +36,7 @@ def upload_found_person_image_form(request):
 	# print(files)
 	args= {'image' : "media/images/founder/" + str(addhar_card_number) + "/" +file_name}
 	addhar_num,img_path=recognize_faces_image.recognize_person(args)
+	# import pdb;pdb.set_trace()
 	if addhar_num!="Unknown":
 		person_name=MissingPerson.objects.get(addhar_card_number=addhar_num).name
 		status="Found"

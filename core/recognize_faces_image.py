@@ -9,6 +9,7 @@ import cv2
 from guardian.models import *
 from numpy import array
 from random import randint
+import os
 # construct the argument parser and parse the arguments
 
 def recognize_person(args):
@@ -96,14 +97,14 @@ def recognize_person(args):
 
 	# show the output image
 	# cv2.imwrite("media/tmp")
-	img_name=str(randint(0,1000000000))+"regognized_"+args["image"].split("/")[-1]
+	img_name=str(randint(0,1000000000))+"recognized_"+args["image"].split("/")[-1]
 	img_path="static/tmp/"+img_name
 	cv2.imwrite(img_path,image)
-	
+	# import pdb;pdb.set_trace()
 	# cv2.imshow("Image", image)
 	# cv2.waitKey(0)
 
-	return (name,img_name)
+	return (name,"tmp/"+img_name)
 
 	
 	# loop over the recognized faces

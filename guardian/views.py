@@ -12,7 +12,7 @@ def get_upload_lost_person_image_form(request):
 
 def upload_lost_person_details(request):
 	data = {
-		'name' : request.POST['first_name'] + request.POST['last_name'],
+		'name' : request.POST['first_name'] + " " + request.POST['last_name'],
 		'gender' : request.POST['gender'],
 		'lower_height_range': int(request.POST['lower_height_range']),
 		'upper_height_range': int(request.POST['upper_height_range']),
