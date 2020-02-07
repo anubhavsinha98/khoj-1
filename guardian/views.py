@@ -9,6 +9,8 @@ import os
 def get_upload_lost_person_image_form(request):
 	return render(request, 'upload_lost_person_image_form.html')
 
+def submit_another(request):
+	return render(request, 'upload_lost_person_image_form.html')
 
 def upload_lost_person_details(request):
 	data = {
@@ -71,4 +73,4 @@ def upload_lost_person_details(request):
 			file_num+=1
 
 
-	return render(request, 'base.html')
+	return render(request, 'submit_another.html')
