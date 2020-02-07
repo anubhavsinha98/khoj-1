@@ -43,7 +43,7 @@ def update_pickle(args):
 		person_count=len(boxes)
 		if person_count!=1:
 			if person_count>1:
-		eequest, 'registerquest, 'register		print("More than one faces detected!")
+				print("More than one faces detected!")
 			elif person_count==0:
 				print("No face detected!")
 			
