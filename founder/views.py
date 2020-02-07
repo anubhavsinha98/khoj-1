@@ -77,4 +77,4 @@ def upload_found_person_image_form(request):
 		person_name="Unknown"
 		status="Not Found!"
 		msg=""
-	return render(request, 'base.html',{'name': person_name,'status' : status,'img_path' : img_path})
+	return render(request, 'base.html',{'name': person_name,'status' : status,'img_path' : img_path, 'msg': msg})
