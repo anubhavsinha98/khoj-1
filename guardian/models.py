@@ -13,6 +13,12 @@ import pickle
 class MissingPerson(models.Model):
 	name = models.CharField(max_length=100, null=True, blank=True)
 	gender = models.CharField(max_length=1, null=True, blank=True)
+	lower_height_range = models.IntegerField(null=True,blank=True)
+	upper_height_range = models.IntegerField(null=True,blank=True)
+	body_built = models.TextField(null=True,blank=True)
+	blood_group = models.TextField(null=True,blank=True)
+	face_complexion = models.TextField(null=True, blank=True)
+	face_shape = models.TextField(null=True, blank=True)
 	addhar_card_number = models.CharField(max_length=12, primary_key=True)
 
 

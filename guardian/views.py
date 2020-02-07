@@ -10,10 +10,16 @@ def get_upload_lost_person_image_form(request):
 	return render(request, 'upload_lost_person_image_form.html')
 
 
-def upload_lost_person_image_form(request):
+def upload_lost_person_details(request):
 	data = {
-		'name' : request.POST['name'],
+		'name' : request.POST['first_name'] + request.POST['last_name'],
 		'gender' : request.POST['gender'],
+		'lower_height_range': int(request.POST['lower_height_range']),
+		'upper_height_range': int(request.POST['upper_height_range']),
+		'blood_group': request.POST['blood_group'],
+		'face_complexion': request.POST['face_complexion'],
+		'face_shape': request.POST['face_shape'],
+		'body_built': request.POST['body_built'],
 		'addhar_card_number' : request.POST['aadhar_num']
 	}
 
@@ -24,7 +30,7 @@ def upload_lost_person_image_form(request):
 	images =request.FILES.getlist('images')
 	
 	try:
-		os.mkdir("media/images/"+data["addhar_card_number"])
+		os.mkdir("media/images/"+ data["addhar_card_number"])
 	except FileExistsError:
 		pass
 
