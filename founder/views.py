@@ -44,31 +44,31 @@ def upload_found_person_image_form(request):
 		
 		message = "Lost person "+person_name+"("+addhar_num+") has been found at ....."
 		
-		# Sending Text Message
+		# # Sending Text Message
 
-		client = boto3.client('sns',region_name='us-east-1')
-		status=client.publish(
-			PhoneNumber="+917727906300",
-			Message=message
-		)
-		# print(status)
+		# client = boto3.client('sns',region_name='us-east-1')
+		# status=client.publish(
+		# 	PhoneNumber="+917727906300",
+		# 	Message=message
+		# )
+		# # print(status)
 
-		# Sending Email Notification
+		# # Sending Email Notification
 		
-		try:
-			sender = 'kaushal.bhansali6@gmail.com'
-			receiver = 'anubhavsinha98@gmail.com'
-			server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-			server.login(sender,os.getenv("mail_key"))
-			message = """Subject: Missing person found!
+		# try:
+		# 	sender = 'kaushal.bhansali6@gmail.com'
+		# 	receiver = 'anubhavsinha98@gmail.com'
+		# 	server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+		# 	server.login(sender,os.getenv("mail_key"))
+		# 	message = """Subject: Missing person found!
 
 
-			Lost person Named :{} with Aadhar Number :({}) has been found at .....
-			""".format(person_name,addhar_num)
-			server.sendmail(sender,receiver,message)
-			print("Successfully sent email")
-		except:
-			print("Error: unable to send email")
+		# 	Lost person Named :{} with Aadhar Number :({}) has been found at .....
+		# 	""".format(person_name,addhar_num)
+		# 	server.sendmail(sender,receiver,message)
+		# 	print("Successfully sent email")
+		# except:
+		# 	print("Error: unable to send email")
 
 
 		status="Found"
@@ -77,4 +77,4 @@ def upload_found_person_image_form(request):
 		person_name="Unknown"
 		status="Not Found!"
 		msg=""
-	return render(request, 'base.html',{'name': person_name,'status' : status,'img_path' : img_path})
+	return render(request, 'base.html',{'name': person_name,'status' : status,'img_path' : img_path, 'msg': msg})
