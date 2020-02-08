@@ -43,9 +43,11 @@ def upload_found_person_image_form(request):
 		missing_obj=MissingPerson.objects.get(addhar_card_number=addhar_num)
 		person_name=missing_obj.name
 		file=open("core/lost_and_found_db","a")
+		
+		# aadhar_number/place_of_last_appearence/latest_appearence
 		file.write(addhar_num+"/"+missing_obj.last_appearence_place+"/"+request.POST['appearence_place']+"\n")
 		file.close()
-		message = "Lost person "+person_name+"("+addhar_num+") has been found at ....."
+		message = "Lost person "+person_name+"("+addhar_num+") has been found at "+request.POST['appearence_place']
 		
 		# Sending Text Message
 
@@ -60,14 +62,14 @@ def upload_found_person_image_form(request):
 		
 		try:
 			sender = 'kaushal.bhansali6@gmail.com'
-			receiver = 'anubhavsinha98@gmail.com'
+			receiver = 'kaushal.bhansali2@gmail.com'
 			server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
 			server.login(sender,os.getenv("mail_key"))
 			message = """Subject: Missing person found!
 
 
-			Lost person Named :{} with Aadhar Number :({}) has been found at .....
-			""".format(person_name,addhar_num)
+			Lost person Named :{} with Aadhar Number :({}) has been found at {}
+			""".format(person_name,addhar_num,request.POST['appearence_place'])
 			server.sendmail(sender,receiver,message)
 			print("Successfully sent email")
 		except:
