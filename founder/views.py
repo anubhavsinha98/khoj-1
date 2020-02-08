@@ -40,9 +40,14 @@ def upload_found_person_image_form(request):
 	addhar_num,img_path=recognize_faces_image.recognize_person(args)
 	# import pdb;pdb.set_trace()
 	if addhar_num!="Unknown":
-		person_name=MissingPerson.objects.get(addhar_card_number=addhar_num).name
+		missing_obj=MissingPerson.objects.get(addhar_card_number=addhar_num)
+		person_name=missing_obj.name
+		file=open("core/lost_and_found_db","a")
 		
-		message = "Lost person "+person_name+"("+addhar_num+") has been found at ....."
+		# aadhar_number/place_of_last_appearence/latest_appearence
+		file.write(addhar_num+"/"+missing_obj.last_appearence_place+"/"+request.POST['appearence_place']+"\n")
+		file.close()
+		message = "Lost person "+person_name+"("+addhar_num+") has been found at "+request.POST['appearence_place']
 		
 		# # Sending Text Message
 
@@ -55,20 +60,20 @@ def upload_found_person_image_form(request):
 
 		# # Sending Email Notification
 		
-		# try:
-		# 	sender = 'kaushal.bhansali6@gmail.com'
-		# 	receiver = 'anubhavsinha98@gmail.com'
-		# 	server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-		# 	server.login(sender,os.getenv("mail_key"))
-		# 	message = """Subject: Missing person found!
+		try:
+			sender = 'kaushal.bhansali6@gmail.com'
+			receiver = 'kaushal.bhansali2@gmail.com'
+			server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+			server.login(sender,os.getenv("mail_key"))
+			message = """Subject: Missing person found!
 
 
-		# 	Lost person Named :{} with Aadhar Number :({}) has been found at .....
-		# 	""".format(person_name,addhar_num)
-		# 	server.sendmail(sender,receiver,message)
-		# 	print("Successfully sent email")
-		# except:
-		# 	print("Error: unable to send email")
+			Lost person Named :{} with Aadhar Number :({}) has been found at {}
+			""".format(person_name,addhar_num,request.POST['appearence_place'])
+			server.sendmail(sender,receiver,message)
+			print("Successfully sent email")
+		except:
+			print("Error: unable to send email")
 
 
 		status="Found"

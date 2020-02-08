@@ -20,6 +20,7 @@ class MissingPerson(models.Model):
 	face_complexion = models.TextField(null=True, blank=True)
 	face_shape = models.TextField(null=True, blank=True)
 	addhar_card_number = models.CharField(max_length=12, primary_key=True)
+	last_appearence_place = models.TextField(null=True, blank=True)
 
 
 class MissingPersonImages(models.Model):
