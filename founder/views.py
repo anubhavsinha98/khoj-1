@@ -49,16 +49,16 @@ def upload_found_person_image_form(request):
 		file.close()
 		message = "Lost person "+person_name+"("+addhar_num+") has been found at "+request.POST['appearence_place']
 		
-		# Sending Text Message
+		# # Sending Text Message
 
-		client = boto3.client('sns',region_name='us-east-1')
-		status=client.publish(
-			PhoneNumber="+917727906300",
-			Message=message
-		)
-		# print(status)
+		# client = boto3.client('sns',region_name='us-east-1')
+		# status=client.publish(
+		# 	PhoneNumber="+917727906300",
+		# 	Message=message
+		# )
+		# # print(status)
 
-		# Sending Email Notification
+		# # Sending Email Notification
 		
 		try:
 			sender = 'kaushal.bhansali6@gmail.com'
