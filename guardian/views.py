@@ -22,7 +22,8 @@ def upload_lost_person_details(request):
 		'face_complexion': request.POST['face_complexion'],
 		'face_shape': request.POST['face_shape'],
 		'body_built': request.POST['body_built'],
-		'addhar_card_number' : request.POST['aadhar_num']
+		'addhar_card_number' : request.POST['aadhar_num'],
+		'last_appearence_place' : request.POST['last_appearence_place']
 	}
 
 	missing_person = MissingPerson(**data)

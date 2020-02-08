@@ -40,8 +40,11 @@ def upload_found_person_image_form(request):
 	addhar_num,img_path=recognize_faces_image.recognize_person(args)
 	# import pdb;pdb.set_trace()
 	if addhar_num!="Unknown":
-		person_name=MissingPerson.objects.get(addhar_card_number=addhar_num).name
-		
+		missing_obj=MissingPerson.objects.get(addhar_card_number=addhar_num)
+		person_name=missing_obj.name
+		file=open("core/lost_and_found_db","a")
+		file.write(addhar_num+"/"+missing_obj.last_appearence_place+"/"+request.POST['appearence_place']+"\n")
+		file.close()
 		message = "Lost person "+person_name+"("+addhar_num+") has been found at ....."
 		
 		# Sending Text Message
